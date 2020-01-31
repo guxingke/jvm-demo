@@ -2,7 +2,9 @@ package com.gxk.demo.jvm.classloader;
 
 import com.gxk.demo.jvm.classfile.ClassFile;
 import com.gxk.demo.jvm.classfile.Field;
+import com.gxk.demo.jvm.classfile.Interface;
 import com.gxk.demo.jvm.classfile.Method;
+import com.gxk.demo.jvm.classfile.attribute.BootstrapMethods;
 import com.gxk.demo.jvm.classfile.attribute.Code;
 import com.gxk.demo.jvm.classpath.Entry;
 import com.gxk.demo.jvm.rtda.Slot;
@@ -12,6 +14,7 @@ import com.gxk.demo.jvm.rtda.heap.KField;
 import com.gxk.demo.jvm.rtda.heap.KMethod;
 import com.gxk.demo.jvm.rtda.heap.KObject;
 import com.gxk.demo.jvm.rtda.heap.NativeMethod;
+import com.gxk.demo.jvm.util.Utils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -81,16 +84,16 @@ public class ClassLoader {
     ClassFile clazz = entry.findClass(name);
     KClass kClass = doLoadClass(name, clazz);
 
-//    // superclass
-//    if (kClass.superClassName != null) {
-//      kClass.setSuperClass(this.loadClass(kClass.superClassName));
-//    }
+    // superclass
+    if (kClass.superClassName != null) {
+      kClass.setSuperClass(this.loadClass(kClass.superClassName));
+    }
 
-//    if (Heap.findClass("java/lang/Class") != null) {
-//      KObject rcs = Heap.findClass("java/lang/Class").newObject();
-//      kClass.setRuntimeClass(rcs);
-//      rcs.setMetaClass(kClass);
-//    }
+    if (Heap.findClass("java/lang/Class") != null) {
+      KObject rcs = Heap.findClass("java/lang/Class").newObject();
+      kClass.setRuntimeClass(rcs);
+      rcs.setMetaClass(kClass);
+    }
 
     return kClass;
   }
@@ -129,21 +132,22 @@ public class ClassLoader {
       }
 
     }
-//    int scIdx = classFile.superClass;
-//    String superClassName = null;
-//    if (scIdx != 0) {
-//      superClassName = Utils.getClassName(classFile.cpInfo, scIdx);
-//    }
-//
-//    List<String> interfaceNames = new ArrayList<>();
-//    if (classFile.interfaces.interfaces.length != 0) {
-//      interfaceNames = Arrays.stream(classFile.interfaces.interfaces).map(Interface::getName).collect(Collectors.toList());
-//    }
-//
-//    BootstrapMethods bootstrapMethods = classFile.getBootstrapMethods();
+    int scIdx = classFile.superClass;
+    String superClassName = null;
+    if (scIdx != 0) {
+      superClassName = Utils.getClassName(classFile.cpInfo, scIdx);
+    }
 
-//    return new KClass(classFile.accessFlags, name, superClassName, interfaceNames, methods, fields, bootstrapMethods, classFile.cpInfo, this, classFile);
-    return new KClass(classFile.accessFlags, name, null, null, methods, fields, null, classFile.cpInfo, this, classFile);
+    List<String> interfaceNames = new ArrayList<>();
+    if (classFile.interfaces.interfaces.length != 0) {
+      for (Interface ai : classFile.interfaces.interfaces) {
+        interfaceNames.add(ai.getName());
+      }
+    }
+
+    BootstrapMethods bootstrapMethods = classFile.getBootstrapMethods();
+
+    return new KClass(classFile.accessFlags, name, superClassName, interfaceNames, methods, fields, bootstrapMethods, classFile.cpInfo, this, classFile);
   }
 
   public KMethod map(Method cfMethod) {

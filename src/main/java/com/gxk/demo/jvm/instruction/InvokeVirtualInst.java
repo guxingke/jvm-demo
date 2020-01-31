@@ -44,10 +44,21 @@ public class InvokeVirtualInst implements Instruction {
 
     if (Objects.equals("java/io/PrintStream", clazz)) {
       if (Objects.equals("println", methodName)) {
-        Integer val = frame.popInt();
-        frame.popRef();
-        System.out.println(val);
-        return;
+        switch (methodDescriptor) {
+          case "(I)V":
+            Integer val = frame.popInt();
+            frame.popRef();
+            System.out.println(val);
+            return;
+          case "(Ljava/lang/String;)V":
+            KObject obj = (KObject) frame.popRef();
+            String str = Utils.obj2Str(obj);
+            frame.popRef();
+            System.out.println(str);
+            return;
+          default:
+            throw new UnsupportedOperationException();
+        }
       }
     }
 

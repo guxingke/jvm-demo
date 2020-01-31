@@ -63,16 +63,16 @@ public class KClass {
   }
 
   public KClass(
-      int accessFlags,
-      String name,
-      String superClassName,
-      List<String> interfaceNames,
-      List<KMethod> methods,
-      List<KField> fields,
-      BootstrapMethods bootstrapMethods,
-      ConstantPool constantPool,
-      ClassLoader classLoader,
-      ClassFile classFile) {
+    int accessFlags,
+    String name,
+    String superClassName,
+    List<String> interfaceNames,
+    List<KMethod> methods,
+    List<KField> fields,
+    BootstrapMethods bootstrapMethods,
+    ConstantPool constantPool,
+    ClassLoader classLoader,
+    ClassFile classFile) {
     this.accessFlags = accessFlags;
     this.name = name;
     this.superClassName = superClassName;
@@ -182,17 +182,17 @@ public class KClass {
       case "B":
       case "S":
       case "I":
-        return new KField(source.accessFlags, source.name, source.descriptor, new Slot[]{new Slot(0, Slot.INT)});
+        return new KField(source.accessFlags, source.name, source.descriptor, new Slot[] {new Slot(0, Slot.INT)});
       case "F":
-        return new KField(source.accessFlags, source.name, source.descriptor, new Slot[]{new Slot(0, Slot.FLOAT)});
+        return new KField(source.accessFlags, source.name, source.descriptor, new Slot[] {new Slot(0, Slot.FLOAT)});
       case "D":
         return new KField(source.accessFlags, source.name, source.descriptor,
-            new Slot[]{new Slot(0, Slot.DOUBLE_HIGH), new Slot(0, Slot.DOUBLE_LOW)});
+          new Slot[] {new Slot(0, Slot.DOUBLE_HIGH), new Slot(0, Slot.DOUBLE_LOW)});
       case "J":
         return new KField(source.accessFlags, source.name, source.descriptor,
-            new Slot[]{new Slot(0, Slot.LONG_HIGH), new Slot(0, Slot.LONG_LOW)});
+          new Slot[] {new Slot(0, Slot.LONG_HIGH), new Slot(0, Slot.LONG_LOW)});
       default:
-        return new KField(source.accessFlags, source.name, source.descriptor, new Slot[]{new Slot(null)});
+        return new KField(source.accessFlags, source.name, source.descriptor, new Slot[] {new Slot(null)});
     }
   }
 
@@ -225,14 +225,14 @@ public class KClass {
   @Override
   public String toString() {
     return "KClass{" +
-        "name='" + name + '\'' +
-        ", superClassName='" + superClassName + '\'' +
-        ", methods=" + methods.size() +
-        ", fields=" + fields.size() +
-        ", classLoader=" + classLoader.getClass().getName() +
-        ", superClass=" + (superClass == null ? "null" : superClass.name) +
-        ", staticInit=" + staticInit +
-        '}';
+      "name='" + name + '\'' +
+      ", superClassName='" + superClassName + '\'' +
+      ", methods=" + methods.size() +
+      ", fields=" + fields.size() +
+      ", classLoader=" + classLoader.getClass().getName() +
+      ", superClass=" + (superClass == null ? "null" : superClass.name) +
+      ", staticInit=" + staticInit +
+      '}';
   }
 
   public void interfaceInit(Frame frame) {
@@ -288,5 +288,13 @@ public class KClass {
 
   public void setRuntimeClass(KObject runtimeClass) {
     this.runtimeClass = runtimeClass;
+  }
+
+  public boolean isPrimitive() {
+    if (name.equalsIgnoreCase("java/lang/Character")) {
+      return true;
+    }
+    System.out.println("is primitive ? " + name);
+    return false;
   }
 }

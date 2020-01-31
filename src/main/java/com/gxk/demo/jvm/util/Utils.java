@@ -251,33 +251,33 @@ public abstract class Utils {
       throw new IllegalStateException("must set env JAVA_HOME");
     }
 
-    Path jarPath = Paths.get(home, "jre", "lib");
+    String jarPath = home + "/jre/lib";
 
     // check MINI_JVM_HOME ready
     // 1. env
-    String miniJvmHome = System.getenv("MINI_JVM_HOME");
-    if (miniJvmHome == null) {
-      // 1.2 check current dir
-      String userDir = System.getProperty("user.dir");
-      if (userDir.endsWith("jvm-core")) {
-        int idx = userDir.lastIndexOf(EnvHolder.FILE_SEPARATOR);
-        miniJvmHome = userDir.substring(0, idx);
-      } else if (userDir.endsWith("mini-jvm")) {
-        miniJvmHome = userDir;
-      }
-    }
-    if (miniJvmHome == null) {
-      throw new IllegalStateException("MINI_JVM_HOME not found");
-    }
-
-    Path rtJarPath = Paths.get(miniJvmHome, "mini-jdk", "target", "rt.jar");
-    if (!rtJarPath.toFile().exists()) {
-      throw new IllegalStateException("rt.jar not found");
-    }
+//    String miniJvmHome = System.getenv("MINI_JVM_HOME");
+//    if (miniJvmHome == null) {
+//      // 1.2 check current dir
+//      String userDir = System.getProperty("user.dir");
+//      if (userDir.endsWith("jvm-core")) {
+//        int idx = userDir.lastIndexOf(EnvHolder.FILE_SEPARATOR);
+//        miniJvmHome = userDir.substring(0, idx);
+//      } else if (userDir.endsWith("mini-jvm")) {
+//        miniJvmHome = userDir;
+//      }
+//    }
+//    if (miniJvmHome == null) {
+//      throw new IllegalStateException("MINI_JVM_HOME not found");
+//    }
+//
+//    Path rtJarPath = Paths.get(miniJvmHome, "mini-jdk", "target", "rt.jar");
+//    if (!rtJarPath.toFile().exists()) {
+//      throw new IllegalStateException("rt.jar not found");
+//    }
 
     String cp = classpath + EnvHolder.PATH_SEPARATOR
-      + rtJarPath.toFile().getAbsolutePath() + EnvHolder.PATH_SEPARATOR
-      + jarPath.toFile().getAbsolutePath() + EnvHolder.FILE_SEPARATOR + "*" + EnvHolder.PATH_SEPARATOR
+//      + rtJarPath.toFile().getAbsolutePath() + EnvHolder.PATH_SEPARATOR
+      + jarPath + EnvHolder.FILE_SEPARATOR + "*" + EnvHolder.PATH_SEPARATOR
       + classpath;
 
     return cp;

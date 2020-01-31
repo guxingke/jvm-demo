@@ -28,14 +28,8 @@ public class Main {
       return;
     }
 
-    ClassLoader boot = new ClassLoader("boot", new DirEntry("/Users/gxk/"));
-    KClass clazz = boot.loadClass("HelloWorld");
-    KMethod mainMethod = clazz.getMainMethod();
-
-    new Interpreter().interpret(mainMethod);
-
-//    VirtualMachine vm = new VirtualMachine();
-//    vm.run(cmd);
+    VirtualMachine vm = new VirtualMachine();
+    vm.run(cmd);
   }
 
   private static void printHelp() {

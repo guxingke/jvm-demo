@@ -56,7 +56,7 @@ public class LdcInst implements Instruction {
           characters[i] = chars[i];
         }
         KArray arr = new KArray(arrClazz, characters);
-        field.val = new Slot[]{new Slot(arr)};
+        field.val = new Slot[] {new Slot(arr)};
         frame.pushRef(object);
         break;
       case "L":
@@ -80,8 +80,8 @@ public class LdcInst implements Instruction {
   @Override
   public String toString() {
     return "LdcInst{" +
-        "descriptor='" + descriptor + '\'' +
-        ", val=" + val +
-        '}';
+      "descriptor='" + descriptor + '\'' +
+      ", val=" + val +
+      '}';
   }
 }
