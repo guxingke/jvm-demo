@@ -1,15 +1,25 @@
 package com.gxk.demo.jvm.util;
 
-import com.gxk.demo.jvm.classfile.*;
-import com.gxk.demo.jvm.classfile.cp.*;
-import com.gxk.demo.jvm.rtda.*;
-import com.gxk.demo.jvm.rtda.heap.*;
+import com.gxk.demo.jvm.classfile.ConstantInfo;
+import com.gxk.demo.jvm.classfile.ConstantPool;
+import com.gxk.demo.jvm.classfile.cp.ClassCp;
+import com.gxk.demo.jvm.classfile.cp.FieldDef;
+import com.gxk.demo.jvm.classfile.cp.InterfaceMethodDef;
+import com.gxk.demo.jvm.classfile.cp.MethodDef;
+import com.gxk.demo.jvm.classfile.cp.NameAndType;
+import com.gxk.demo.jvm.classfile.cp.Utf8;
 import com.gxk.demo.jvm.classloader.ClassLoader;
+import com.gxk.demo.jvm.rtda.Frame;
+import com.gxk.demo.jvm.rtda.Slot;
+import com.gxk.demo.jvm.rtda.heap.Heap;
+import com.gxk.demo.jvm.rtda.heap.KArray;
+import com.gxk.demo.jvm.rtda.heap.KClass;
+import com.gxk.demo.jvm.rtda.heap.KField;
+import com.gxk.demo.jvm.rtda.heap.KMethod;
+import com.gxk.demo.jvm.rtda.heap.KObject;
 
 import java.io.DataInputStream;
 import java.io.IOException;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;

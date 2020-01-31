@@ -5,10 +5,6 @@ import com.gxk.demo.jvm.classfile.ClassReader;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.Arrays;
-import java.util.Objects;
 
 public class DirEntry implements Entry {
 

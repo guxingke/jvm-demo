@@ -1,9 +1,9 @@
 package com.gxk.demo.jvm;
 
+import com.gxk.demo.jvm.util.EnvHolder;
+
 import java.io.IOException;
 import java.io.InputStream;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.Objects;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
@@ -111,9 +111,9 @@ public class Args {
   }
 
   private static String parseMainClass(String mainJar) {
-    Path path = Paths.get(mainJar);
+    String userDir= System.getProperty("user.dir");
     try {
-      ZipFile file = new ZipFile(path.toFile());
+      ZipFile file = new ZipFile(userDir + EnvHolder.FILE_SEPARATOR + mainJar);
       ZipEntry entry = file.getEntry("META-INF/MANIFEST.MF");
 
       InputStream is = file.getInputStream(entry);
