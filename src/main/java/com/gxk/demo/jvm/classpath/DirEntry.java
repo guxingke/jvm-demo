@@ -30,7 +30,7 @@ public class DirEntry implements Entry {
       }
 
       try {
-        ClassFile cf = ClassReader.read(path);
+        ClassFile cf = ClassReader.read(path, clazzName);
         cf.setSource(path.toString());
         return cf;
       } catch (IOException e) {

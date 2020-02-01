@@ -2,16 +2,13 @@ package com.gxk.demo.jvm.rtda.heap;
 
 import com.gxk.demo.jvm.classfile.ClassFile;
 import com.gxk.demo.jvm.classfile.ConstantPool;
-import com.gxk.demo.jvm.classfile.Field;
 import com.gxk.demo.jvm.classfile.attribute.BootstrapMethods;
+import com.gxk.demo.jvm.classloader.ClassLoader;
 import com.gxk.demo.jvm.rtda.Frame;
 import com.gxk.demo.jvm.rtda.Slot;
-import com.gxk.demo.jvm.classloader.ClassLoader;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import java.util.stream.Collectors;
 
 public class KClass {
 

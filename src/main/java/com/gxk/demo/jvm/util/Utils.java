@@ -26,10 +26,10 @@ import java.util.List;
 
 public abstract class Utils {
 
-  public static byte[] readNBytes(DataInputStream stream, int n) throws IOException {
+  public static byte[] readNBytes(DataInputStream stm, int n) throws IOException {
     byte[] bytes = new byte[n];
     for (int i = 0; i < n; i++) {
-      bytes[i] = stream.readByte();
+      bytes[i] = stm.readByte();
     }
     return bytes;
   }
@@ -153,7 +153,7 @@ public abstract class Utils {
   }
 
   public static String genNativeMethodKey(String clazz, String name, String descriptor) {
-    return String.format("%s_%s_%s", clazz, name, descriptor);
+    return clazz + "_" + name + "_" + descriptor;
   }
 
   public static Object pop(Frame frame, String descriptor) {
@@ -287,8 +287,7 @@ public abstract class Utils {
 
     String cp = classpath + EnvHolder.PATH_SEPARATOR
 //      + rtJarPath.toFile().getAbsolutePath() + EnvHolder.PATH_SEPARATOR
-      + jarPath + EnvHolder.FILE_SEPARATOR + "*" + EnvHolder.PATH_SEPARATOR
-      + classpath;
+        + jarPath + EnvHolder.FILE_SEPARATOR + "*";
 
     return cp;
   }

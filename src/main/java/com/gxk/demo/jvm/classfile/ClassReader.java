@@ -14,15 +14,15 @@ import java.util.List;
 
 public abstract class ClassReader {
 
-  public static ClassFile read(String path) throws IOException {
+  public static ClassFile read(String path, String name) throws IOException {
 
     try (InputStream is = new FileInputStream(path);
-         DataInputStream stream = new DataInputStream(is)) {
-      return read(stream);
+         DataInputStream stm= new DataInputStream(is)) {
+      return read(stm, name);
     }
   }
 
-  public static ClassFile read(DataInputStream is) throws IOException {
+  public static ClassFile read(DataInputStream is, String name) throws IOException {
     int magic = is.readInt();
     int minorVersion = is.readUnsignedShort();
     int majorVersion = is.readUnsignedShort();
@@ -289,11 +289,11 @@ public abstract class ClassReader {
 
   public static Instruction[] readByteCode(byte[] byteCode, ConstantPool constantPool) throws IOException {
     List<Instruction> instructions = new ArrayList<>();
-    try (MyDataInputStream stream = new MyDataInputStream(new MyByteArrayInputStream(byteCode))) {
-      while (stream.available() > 0) {
-        int opCode = stream.readUnsignedByte();
+    try (MyDataInputStream stm = new MyDataInputStream(new MyByteArrayInputStream(byteCode))) {
+      while (stm.available() > 0) {
+        int opCode = stm.readUnsignedByte();
         try {
-          Instruction inst = InstructionReader.read(opCode, stream, constantPool);
+          Instruction inst = InstructionReader.read(opCode, stm, constantPool);
           if (inst == null) {
             System.out.println(Integer.toHexString(opCode));
             break;

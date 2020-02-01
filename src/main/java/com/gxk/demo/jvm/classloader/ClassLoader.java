@@ -71,7 +71,7 @@ public class ClassLoader {
     Heap.registerClass(clazz.name, clazz);
     for (KMethod method : clazz.methods) {
       if (method.isNative()) {
-        String key = String.format("%s_%s_%s", method.clazz.name, method.name, method.descriptor);
+        String key = Utils.genNativeMethodKey(method.clazz.name, method.name, method.descriptor);
         NativeMethod nm = Heap.findMethod(key);
         if (nm == null) {
           System.err.println("not found native method " + key + " " + method);

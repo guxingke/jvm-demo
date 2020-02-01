@@ -1,19 +1,14 @@
 package com.gxk.demo.jvm.classpath;
 
 import com.gxk.demo.jvm.util.EnvHolder;
-
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.Objects;
-import java.util.stream.Collectors;
 
 public abstract class Classpath {
 
   public static Entry parse(String classpath) {
     if (classpath.contains(EnvHolder.PATH_SEPARATOR)) {
-
       return doParseCompositeEntry(classpath);
     }
     Entry entry = parseEntry(classpath);
@@ -25,7 +20,6 @@ public abstract class Classpath {
   }
 
   public static Entry doParseCompositeEntry(String classpath) {
-
     List<Entry> entries = new ArrayList<>();
 
     for (String path : classpath.split(EnvHolder.PATH_SEPARATOR)) {
@@ -51,10 +45,15 @@ public abstract class Classpath {
   }
 
   public static Entry doParseWildcard(String path) {
-    List<Entry> entries = Arrays.stream(
-      Objects.requireNonNull(new File(path).list((dir, name) -> isJar(name))))
-      .map(it -> Classpath.doParseJar(path + File.separator + it))
-      .collect(Collectors.toList());
+    List<Entry> entries = new ArrayList<>();
+    String[] list = new File(path).list();
+    for (String name : list) {
+      if (isJar(name)) {
+        String pathDir = path + EnvHolder.FILE_SEPARATOR + name;
+        Entry e = Classpath.doParseJar(pathDir);
+        entries.add(e);
+      }
+    }
     return new CompositeEntry(entries);
   }
 
@@ -67,7 +66,8 @@ public abstract class Classpath {
   }
 
   public static boolean isDir(String path) {
-    return new File(path).isDirectory();
+    File file = new File(path);
+    return file.isDirectory();
   }
 
   public static boolean isWildcard(String path) {

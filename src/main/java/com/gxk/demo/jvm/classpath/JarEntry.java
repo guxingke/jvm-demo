@@ -2,14 +2,11 @@ package com.gxk.demo.jvm.classpath;
 
 import com.gxk.demo.jvm.classfile.ClassFile;
 import com.gxk.demo.jvm.classfile.ClassReader;
-
-import java.io.BufferedInputStream;
 import java.io.DataInputStream;
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.nio.file.Path;
-import java.util.jar.JarFile;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipFile;
 
 public class JarEntry implements Entry {
 
@@ -21,21 +18,21 @@ public class JarEntry implements Entry {
 
   @Override
   public ClassFile findClass(String name) {
-    JarFile file;
+    ZipFile file;
     try {
-      file = new JarFile(new File(path));
+      file = new ZipFile(path);
     } catch (IOException e) {
       throw new IllegalStateException();
     }
 
-    java.util.jar.JarEntry jarEntry = file.getJarEntry(name + ".class");
+    ZipEntry jarEntry = file.getEntry(name + ".class");
 
     if (jarEntry == null) {
       return null;
     }
 
     try (InputStream is = file.getInputStream(jarEntry)) {
-      ClassFile cf = ClassReader.read(new DataInputStream(new BufferedInputStream(is)));
+      ClassFile cf = ClassReader.read(new DataInputStream(is), name);
       cf.setSource(path.toString());
 
       return cf;
